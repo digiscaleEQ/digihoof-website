@@ -1,0 +1,7 @@
+name = "digihoof-marketing"
+compatibility_date = "2026-03-21"
+
+[assets]
+directory = "."
+
+html_handling = "drop-trailing-slash"
