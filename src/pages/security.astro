@@ -1,27 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Security | DigiHoof</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="DigiHoof security practices. Learn how we protect your hoof radiograph data and reports with secure cloud infrastructure." />
-  <link rel="stylesheet" href="css/main.css" />
-</head>
-<body>
+---
+/**
+ * Security Page
+ */
 
-<header class="site-header">
-  <div class="container header-inner">
-    <div class="logo">
-      <a href="/"><img src="images/DIGIHOOFbluewhite.png" alt="DigiHoof logo" /></a>
-    </div>
-    <nav class="nav">
-      <a href="/pricing">Pricing</a>
-      <a href="/resources.html">Tutorials</a>
-      <a href="/support.html">Support</a>
-      <a href="https://app.digihoof.com/login" class="btn primary small">Clinic Login</a>
-    </nav>
-  </div>
-</header>
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Security"
+  description="DigiHoof security practices. Learn how we protect your hoof radiograph data and reports with secure cloud infrastructure."
+>
 
 <section class="split-section">
   <div class="container">
@@ -58,5 +46,4 @@
   </div>
 </section>
 
-</body>
-</html>
+</BaseLayout>

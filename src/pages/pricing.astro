@@ -1,0 +1,67 @@
+---
+/**
+ * Pricing Page
+ *
+ * Preserves the original DigiHoof pricing page design exactly.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Pricing"
+  description="DigiHoof pricing plans. Pay per report or subscribe for unlimited hoof radiograph reports."
+>
+
+<section class="pricing-header">
+  <div class="container">
+    <h1>Simple, Transparent Pricing</h1>
+    <p>Create professional hoof radiograph reports in seconds.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="pricing-grid">
+
+      <!-- Pay Per Report -->
+      <div class="pricing-card">
+        <h2>Pay Per Report</h2>
+        <div class="pricing-price">$3 <span>/ report</span></div>
+        <ul class="pricing-features">
+          <li>No subscription required</li>
+          <li>Pay only when you use it</li>
+          <li>Full report generation</li>
+        </ul>
+        <a href="/support" class="btn secondary">Start Using</a>
+      </div>
+
+      <!-- DigiHoof (featured) -->
+      <div class="pricing-card featured">
+        <h2>DigiHoof</h2>
+        <div class="pricing-price">$14.99 <span>/ month</span></div>
+        <ul class="pricing-features">
+          <li>Unlimited reports</li>
+          <li>AI-powered hoof analysis</li>
+          <li>Client-ready PDFs</li>
+        </ul>
+        <a href="/support" class="btn primary">Get Started</a>
+      </div>
+
+      <!-- With EQPACS -->
+      <div class="pricing-card">
+        <h2>With EQPACS</h2>
+        <div class="pricing-price">$9.99 <span>/ month</span></div>
+        <ul class="pricing-features">
+          <li>Seamless integration</li>
+          <li>One-click report creation</li>
+          <li>Faster workflow</li>
+        </ul>
+        <a href="/support" class="btn secondary">Add to EQPACS</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</BaseLayout>

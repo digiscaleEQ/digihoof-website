@@ -1,0 +1,35 @@
+---
+/**
+ * Site Header Component
+ *
+ * Sticky header with logo and navigation.
+ * Preserves the original DigiHoof header design exactly.
+ */
+
+import { brand } from '../../config/brand';
+import { mainNav } from '../../config/navigation';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">
+      <a href="/">
+        <img src={brand.logo.src} alt={brand.logo.alt} height={brand.logo.height} width="auto" />
+      </a>
+    </div>
+
+    <nav class="nav" aria-label="Main navigation">
+      {mainNav.map((item) => (
+        <a
+          href={item.href}
+          aria-current={currentPath.startsWith(item.href) && item.href !== '/' ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a href={brand.appUrl} class="btn primary small">{brand.appLabel}</a>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,18 @@
+---
+/**
+ * Category Badge Component
+ */
+
+interface Props {
+  category: string;
+  href?: string;
+}
+
+const { category, href } = Astro.props;
+---
+
+{href ? (
+  <a href={href} class="category-badge">{category}</a>
+) : (
+  <span class="category-badge">{category}</span>
+)}

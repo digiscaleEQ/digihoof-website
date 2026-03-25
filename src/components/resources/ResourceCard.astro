@@ -1,0 +1,61 @@
+---
+/**
+ * Resource Card Component
+ *
+ * Premium editorial card for the Resources landing page grid.
+ * Consistent height, elegant hover states, strong mobile usability.
+ */
+
+import CategoryBadge from './CategoryBadge.astro';
+
+interface Props {
+  title: string;
+  excerpt: string;
+  slug: string;
+  publishDate: Date;
+  category?: string;
+  author?: string;
+  heroImage?: string;
+  heroImageAlt?: string;
+  readingTime?: string;
+}
+
+const { title, excerpt, slug, publishDate, category, author, heroImage, heroImageAlt, readingTime } = Astro.props;
+
+const formattedDate = publishDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="resource-card">
+  {heroImage && (
+    <img
+      src={heroImage}
+      alt={heroImageAlt || title}
+      class="resource-card__image"
+      loading="lazy"
+    />
+  )}
+
+  <div class="resource-card__body">
+    <div class="resource-card__meta">
+      {category && <CategoryBadge category={category} />}
+      <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+    </div>
+
+    <h3 class="resource-card__title">
+      <a href={`/resources/${slug}/`}>{title}</a>
+    </h3>
+
+    <p class="resource-card__excerpt">{excerpt}</p>
+
+    <div class="resource-card__footer">
+      <span>{author} {readingTime && `· ${readingTime}`}</span>
+      <a href={`/resources/${slug}/`} class="resource-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </div>
+</article>

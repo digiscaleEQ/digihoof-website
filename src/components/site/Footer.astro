@@ -1,0 +1,40 @@
+---
+/**
+ * Site Footer Component
+ *
+ * Three-column footer with brand info, company links, and support links.
+ * Preserves the original DigiHoof footer design exactly.
+ */
+
+import { brand } from '../../config/brand';
+import { footerColumns } from '../../config/navigation';
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h4>{brand.name}</h4>
+      <p>{brand.tagline}</p>
+      <p class="footer-operator">Operated by {brand.operator}.</p>
+    </div>
+
+    {footerColumns.map((column) => (
+      <div>
+        <h4>{column.title}</h4>
+        {column.links.map((link) => (
+          <a
+            href={link.href}
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    ))}
+  </div>
+
+  <div class="copyright">
+    {brand.copyright}
+  </div>
+</footer>

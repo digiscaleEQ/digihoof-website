@@ -1,0 +1,123 @@
+---
+/**
+ * Support & Contact Page
+ *
+ * Preserves the original DigiHoof support page design exactly,
+ * including the Turnstile-protected contact form.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Support & Contact"
+  description="Contact DigiHoof support for onboarding, technical questions, and assistance with hoof radiograph reporting."
+>
+
+<section class="contact-section">
+  <div class="container">
+    <h1>Support &amp; Contact</h1>
+    <p>
+      Have a question about DigiHoof or need help getting started?<br />
+      Send us a message and we'll get back to you shortly.
+    </p>
+
+    <div id="form-status" class="form-status"></div>
+
+    <form class="contact-form" id="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="How can we help?" required></textarea>
+
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAACseCiqnb19bls8s" data-theme="dark"></div>
+
+      <button type="submit">Send Message</button>
+    </form>
+
+    <p class="form-note">We typically respond within one business day.</p>
+  </div>
+</section>
+
+<section class="onboarding-section split-section alt">
+  <div class="container">
+    <h2>Onboarding Assistance</h2>
+    <p>
+      Getting started with DigiHoof is straightforward.
+      Our team provides onboarding support to help your practice
+      integrate hoof radiograph reporting into your existing workflow.
+    </p>
+    <ul>
+      <li>Account setup and configuration</li>
+      <li>Workflow integration guidance for your practice</li>
+      <li>Training on report generation and sharing</li>
+      <li>Best practices for farrier collaboration</li>
+    </ul>
+  </div>
+</section>
+
+<section class="onboarding-section split-section">
+  <div class="container">
+    <h2>Farrier Access Support</h2>
+    <p>
+      DigiHoof is designed so farriers can view shared reports
+      without needing a PACS login or specialized software.
+      If farriers working with your clinic need help accessing shared reports,
+      our team can assist.
+    </p>
+  </div>
+</section>
+
+</BaseLayout>
+
+<script is:inline>
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const status = document.getElementById('form-status');
+  const btn = this.querySelector('button[type="submit"]');
+  if (btn.disabled) return;
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  status.className = 'form-status';
+  status.style.display = '';
+
+  try {
+    const payload = {
+      name: this.name.value,
+      email: this.email.value,
+      message: this.message.value,
+      source: "digihoof",
+      type: "support",
+    };
+
+    const turnstileInput = this.querySelector('[name="cf-turnstile-response"]');
+    if (turnstileInput && turnstileInput.value) {
+      payload.turnstile_token = turnstileInput.value;
+    }
+
+    const response = await fetch("https://api.digiscanlab.com/api/core/inquiries", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      status.textContent = 'Thanks \u2014 we\u2019ll be in touch shortly.';
+      status.className = 'form-status success';
+      status.style.display = '';
+      this.reset();
+      if (window.turnstile) turnstile.reset();
+    } else {
+      status.textContent = 'Something went wrong. Please try again.';
+      status.className = 'form-status error';
+      status.style.display = '';
+    }
+  } catch (err) {
+    status.textContent = 'Something went wrong. Please try again.';
+    status.className = 'form-status error';
+    status.style.display = '';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Send Message';
+});
+</script>

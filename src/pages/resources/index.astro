@@ -1,0 +1,88 @@
+---
+/**
+ * Resources Landing Page
+ *
+ * Premium editorial resource library. Displays featured resource (if any)
+ * plus a grid of all published resources. Feels like a high-end publishing
+ * surface, not a generic blog listing.
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FeaturedResource from '../../components/resources/FeaturedResource.astro';
+import ResourceCard from '../../components/resources/ResourceCard.astro';
+import { resourcesConfig } from '../../config/resources';
+import { calculateReadingTime } from '../../lib/readingTime';
+import { getCollection } from 'astro:content';
+
+const allResources = await getCollection('resources', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Sort by publish date, newest first
+const sorted = allResources.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+// Separate featured from rest
+const featured = sorted.find((r) => r.data.featured);
+const rest = featured ? sorted.filter((r) => r.slug !== featured!.slug) : sorted;
+---
+
+<BaseLayout
+  title={resourcesConfig.sectionLabel}
+  description={resourcesConfig.landingHero.subtitle}
+>
+
+<section class="resources-hero">
+  <div class="container">
+    <h1>{resourcesConfig.landingHero.title}</h1>
+    <p>{resourcesConfig.landingHero.subtitle}</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+
+    {/* Featured Resource */}
+    {featured && (
+      <FeaturedResource
+        title={featured.data.title}
+        excerpt={featured.data.excerpt}
+        slug={featured.slug}
+        publishDate={featured.data.publishDate}
+        category={featured.data.category}
+        author={featured.data.author}
+        heroImage={featured.data.heroImage}
+        heroImageAlt={featured.data.heroImageAlt}
+        readingTime={featured.data.readingTimeOverride || calculateReadingTime(featured.body || '')}
+      />
+    )}
+
+    {/* Resource Grid */}
+    {rest.length > 0 ? (
+      <div class="resources-grid">
+        {rest.map((resource) => (
+          <ResourceCard
+            title={resource.data.title}
+            excerpt={resource.data.excerpt}
+            slug={resource.slug}
+            publishDate={resource.data.publishDate}
+            category={resource.data.category}
+            author={resource.data.author}
+            heroImage={resource.data.heroImage}
+            heroImageAlt={resource.data.heroImageAlt}
+            readingTime={resource.data.readingTimeOverride || calculateReadingTime(resource.body || '')}
+          />
+        ))}
+      </div>
+    ) : !featured && (
+      <div class="resources-empty">
+        <p>Resources are coming soon. Check back for expert insights on hoof radiograph reporting.</p>
+        <a href="/" class="btn primary">Back to Home</a>
+      </div>
+    )}
+
+  </div>
+</section>
+
+</BaseLayout>

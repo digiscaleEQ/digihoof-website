@@ -1,0 +1,67 @@
+---
+/**
+ * Tutorials Page
+ *
+ * Preserves the original DigiHoof tutorials/video page design exactly.
+ * (Previously /resources.html — now at /tutorials to free /resources for publishing)
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Tutorials"
+  description="DigiHoof tutorials and feature demonstrations. Learn how to generate standardized hoof radiograph reports, share with farriers, and track hoof balance over time."
+>
+
+<section class="split-section">
+  <div class="container">
+    <h1>DigiHoof Tutorials</h1>
+    <p>
+      Explore feature demonstrations and workflow walkthroughs designed to help
+      equine practices generate standardized hoof radiograph reports efficiently.
+    </p>
+  </div>
+</section>
+
+<section class="split-section alt">
+  <div class="container">
+
+    <div class="video-grid">
+
+      <!-- Video 1 -->
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe
+            src="https://www.youtube.com/embed/S3fu4wBK9po"
+            title="DigiHoof Workflow Tutorial"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <h3>DigiHoof Workflow Tutorial</h3>
+        <p>
+          Full walkthrough of the DigiHoof workflow including radiograph analysis,
+          landmark verification, hoof photograph upload, and report generation.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="split-section">
+  <div class="container">
+    <h2>Need Assistance?</h2>
+    <p>
+      For onboarding questions or workflow guidance, visit the Support page
+      or contact our team directly.
+    </p>
+    <a href="/support" class="btn primary">Contact Support</a>
+  </div>
+</section>
+
+</BaseLayout>

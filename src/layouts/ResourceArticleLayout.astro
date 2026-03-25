@@ -1,0 +1,155 @@
+---
+/**
+ * Resource Article Layout
+ *
+ * Premium article reading layout with:
+ * - Breadcrumb
+ * - Title, metadata, category badge
+ * - Optional hero image
+ * - Rendered article body
+ * - CTA block
+ * - Related resources
+ *
+ * This is the most important page template. It must be polished.
+ */
+
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+import CategoryBadge from '../components/resources/CategoryBadge.astro';
+import CTA from '../components/ui/CTA.astro';
+import RelatedResources from '../components/resources/RelatedResources.astro';
+import StructuredData from '../components/seo/StructuredData.astro';
+import { resourcesConfig } from '../config/resources';
+import { calculateReadingTime } from '../lib/readingTime';
+import { getRelatedResources } from '../lib/relatedResources';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'resources'>;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+
+const readingTime = data.readingTimeOverride || calculateReadingTime(entry.body || '');
+
+const formattedDate = data.publishDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const updatedFormatted = data.updatedDate
+  ? data.updatedDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+
+// Resolve related resources
+const allResources = await getCollection('resources', ({ data }) => !data.draft);
+const related = resourcesConfig.enableRelatedResources
+  ? getRelatedResources(entry, allResources)
+  : [];
+
+// Breadcrumb items
+const breadcrumbItems = [
+  { label: 'Home', href: '/' },
+  { label: resourcesConfig.sectionLabel, href: resourcesConfig.routeBase },
+  { label: data.title },
+];
+
+// CTA props
+const ctaProps = data.ctaVariant !== 'none'
+  ? {
+      title: data.ctaTitle || resourcesConfig.defaultCta.title,
+      text: data.ctaText || resourcesConfig.defaultCta.text,
+      href: data.ctaHref || resourcesConfig.defaultCta.href,
+      buttonLabel: resourcesConfig.defaultCta.buttonLabel,
+    }
+  : null;
+---
+
+<BaseLayout
+  title={data.seoTitle || data.title}
+  description={data.seoDescription || data.excerpt}
+  canonicalUrl={data.canonicalUrl}
+  ogImage={data.ogImage || data.heroImage}
+  ogType="article"
+  publishDate={data.publishDate}
+  updatedDate={data.updatedDate}
+  author={data.author}
+>
+  <StructuredData
+    slot="head"
+    type="article"
+    title={data.title}
+    description={data.excerpt}
+    publishDate={data.publishDate}
+    updatedDate={data.updatedDate}
+    author={data.author}
+    image={data.heroImage}
+    url={`${resourcesConfig.routeBase}/${entry.slug}/`}
+  />
+
+  <div class="container">
+    <Breadcrumb items={breadcrumbItems} />
+  </div>
+
+  <article>
+    <!-- Article Header -->
+    <header class="article-header">
+      {data.category && (
+        <div class="article-header__category">
+          <CategoryBadge category={data.category} />
+        </div>
+      )}
+
+      <h1 class="article-header__title">{data.title}</h1>
+
+      <div class="article-header__meta">
+        <span>
+          <time datetime={data.publishDate.toISOString()}>{formattedDate}</time>
+        </span>
+        {data.author && <span>{data.author}</span>}
+        {readingTime && <span>{readingTime}</span>}
+        {updatedFormatted && <span>Updated {updatedFormatted}</span>}
+      </div>
+
+      {data.tags && data.tags.length > 0 && (
+        <div class="tags" style="justify-content:center;margin-top:16px;">
+          {data.tags.map((tag: string) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- Hero Image -->
+    {data.heroImage && (
+      <div class="article-hero-image">
+        <img
+          src={data.heroImage}
+          alt={data.heroImageAlt || data.title}
+          loading="eager"
+        />
+      </div>
+    )}
+
+    <!-- Article Body -->
+    <div class="article-body">
+      <Content />
+    </div>
+
+    <!-- CTA Block -->
+    {ctaProps && resourcesConfig.enableCta && (
+      <CTA {...ctaProps} />
+    )}
+  </article>
+
+  <!-- Related Resources -->
+  <RelatedResources resources={related} />
+</BaseLayout>

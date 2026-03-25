@@ -1,0 +1,38 @@
+---
+/**
+ * Related Resources Component
+ *
+ * Displays related resource cards at the bottom of an article page.
+ */
+
+import ResourceCard from './ResourceCard.astro';
+import { calculateReadingTime } from '../../lib/readingTime';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  resources: CollectionEntry<'resources'>[];
+}
+
+const { resources } = Astro.props;
+---
+
+{resources.length > 0 && (
+  <section class="related-resources">
+    <h2 class="related-resources__title">Related Resources</h2>
+    <div class="related-resources__grid">
+      {resources.map((resource) => (
+        <ResourceCard
+          title={resource.data.title}
+          excerpt={resource.data.excerpt}
+          slug={resource.slug}
+          publishDate={resource.data.publishDate}
+          category={resource.data.category}
+          author={resource.data.author}
+          heroImage={resource.data.heroImage}
+          heroImageAlt={resource.data.heroImageAlt}
+          readingTime={resource.data.readingTimeOverride || calculateReadingTime(resource.body || '')}
+        />
+      ))}
+    </div>
+  </section>
+)}

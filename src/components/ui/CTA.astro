@@ -1,0 +1,31 @@
+---
+/**
+ * CTA Block Component
+ *
+ * Tasteful call-to-action block used at the bottom of resource articles.
+ * Premium styling — not spammy or aggressive.
+ */
+
+import { resourcesConfig } from '../../config/resources';
+
+interface Props {
+  title?: string;
+  text?: string;
+  href?: string;
+  buttonLabel?: string;
+}
+
+const defaults = resourcesConfig.defaultCta;
+const {
+  title = defaults.title,
+  text = defaults.text,
+  href = defaults.href,
+  buttonLabel = defaults.buttonLabel,
+} = Astro.props;
+---
+
+<aside class="article-cta" aria-label="Call to action">
+  <h3>{title}</h3>
+  <p>{text}</p>
+  <a href={href} class="btn primary">{buttonLabel}</a>
+</aside>

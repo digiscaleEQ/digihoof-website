@@ -1,0 +1,11 @@
+# Cloudflare Pages _redirects
+# Preserves SEO for old .html URLs after Astro migration
+
+/resources.html  /tutorials  301
+/about.html      /about      301
+/support.html    /support    301
+/security.html   /security   301
+/terms.html      /terms      301
+/privacy.html    /privacy    301
+/liability.html  /liability  301
+/tutorial        /tutorials  301

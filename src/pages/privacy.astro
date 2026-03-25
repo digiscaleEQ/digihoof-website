@@ -1,27 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Privacy Policy | DigiHoof</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="DigiHoof privacy policy. Learn how we handle user data and imaging information on our hoof radiograph reporting platform." />
-  <link rel="stylesheet" href="css/main.css" />
-</head>
-<body>
+---
+/**
+ * Privacy Policy Page
+ */
 
-<header class="site-header">
-  <div class="container header-inner">
-    <div class="logo">
-      <a href="/"><img src="images/DIGIHOOFbluewhite.png" alt="DigiHoof logo" /></a>
-    </div>
-    <nav class="nav">
-      <a href="/pricing">Pricing</a>
-      <a href="/resources.html">Tutorials</a>
-      <a href="/support.html">Support</a>
-      <a href="https://app.digihoof.com/login" class="btn primary small">Clinic Login</a>
-    </nav>
-  </div>
-</header>
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="DigiHoof privacy policy. Learn how we handle user data and imaging information on our hoof radiograph reporting platform."
+>
 
 <section class="split-section">
   <div class="container">
@@ -68,10 +56,9 @@
 
     <h2>7. Contact</h2>
     <p>
-      For privacy inquiries, <a href="/support.html">contact us via our support form</a>.
+      For privacy inquiries, <a href="/support">contact us via our support form</a>.
     </p>
   </div>
 </section>
 
-</body>
-</html>
+</BaseLayout>

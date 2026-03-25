@@ -1,0 +1,45 @@
+---
+/**
+ * Base Layout
+ *
+ * Shared layout for all pages. Includes head, header, footer, SEO.
+ * Every page wraps its content in this layout.
+ */
+
+import SEO from '../components/seo/SEO.astro';
+import StructuredData from '../components/seo/StructuredData.astro';
+import Header from '../components/site/Header.astro';
+import Footer from '../components/site/Footer.astro';
+import type { SEOProps } from '../lib/seo';
+
+import '../styles/global.css';
+
+interface Props extends SEOProps {
+  /** Include organization structured data (homepage only) */
+  includeOrgSchema?: boolean;
+}
+
+const { includeOrgSchema = false, ...seoProps } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="/images/DIGIHOOFbluegrey.png" />
+  <SEO {...seoProps} />
+  {includeOrgSchema && <StructuredData type="organization" />}
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <Header />
+
+  <main id="main-content">
+    <slot />
+  </main>
+
+  <Footer />
+</body>
+</html>

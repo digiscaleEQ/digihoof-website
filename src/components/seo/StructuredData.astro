@@ -1,0 +1,65 @@
+---
+/**
+ * Structured Data Component
+ *
+ * Generates JSON-LD structured data for articles and organization.
+ */
+
+import { brand } from '../../config/brand';
+
+interface Props {
+  type: 'article' | 'organization';
+  title?: string;
+  description?: string;
+  publishDate?: Date;
+  updatedDate?: Date;
+  author?: string;
+  image?: string;
+  url?: string;
+}
+
+const { type, title, description, publishDate, updatedDate, author, image, url } = Astro.props;
+
+function buildArticleSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: description,
+    datePublished: publishDate?.toISOString(),
+    dateModified: updatedDate?.toISOString() || publishDate?.toISOString(),
+    author: {
+      '@type': 'Organization',
+      name: author || brand.name,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: brand.name,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${brand.seo.canonicalBase}${brand.logo.src}`,
+      },
+    },
+    image: image ? (image.startsWith('http') ? image : `${brand.seo.canonicalBase}${image}`) : undefined,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url || brand.seo.canonicalBase,
+    },
+  };
+}
+
+function buildOrganizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: brand.name,
+    description: brand.seo.defaultDescription,
+    url: brand.seo.canonicalBase,
+    logo: `${brand.seo.canonicalBase}${brand.logo.src}`,
+  };
+}
+
+const schema = type === 'article' ? buildArticleSchema() : buildOrganizationSchema();
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -1,32 +1,74 @@
-# DigiHoof Marketing Site
+# DigiHoof Marketing Website
 
-Static marketing site served via Cloudflare Workers at **digihoof.com**.
+Astro-powered static marketing site for DigiHoof, deployed via Cloudflare Pages.
 
-## Structure
+## Architecture
 
-```
-cloudflare-pages/digihoof-marketing/
-├── wrangler.toml        # Cloudflare Workers config
-├── index.html           # Homepage (digihoof.com)
-├── pricing.html         # /pricing
-├── tutorial.html        # /tutorial
-├── about.html           # /about
-├── resources.html       # /resources
-├── support.html         # /support
-├── security.html        # /security
-├── terms.html           # /terms
-├── privacy.html         # /privacy
-├── liability.html       # /liability
-├── css/main.css         # Stylesheet
-└── images/              # Logos and photos
-```
+- **Framework**: [Astro](https://astro.build/) v4 (static output)
+- **Deploy**: Cloudflare Pages (auto-builds on `main` push)
+- **Content**: Markdown content collections for Resources
+- **Styling**: CSS custom properties with DigiHoof brand tokens
 
-## Deploy
+## Development
 
 ```bash
-cd cloudflare-pages/digihoof-marketing
-npx wrangler deploy
+npm install
+npm run dev      # Start dev server at localhost:4321
+npm run build    # Build to dist/
+npm run preview  # Preview production build
 ```
+
+## Project Structure
+
+```
+src/
+  components/
+    site/          # Header, Footer
+    resources/     # ResourceCard, FeaturedResource, RelatedResources
+    seo/           # SEO meta, structured data
+    ui/            # Button, CTA, Breadcrumb
+  config/
+    brand.ts       # Brand design tokens (colors, fonts, spacing)
+    navigation.ts  # Nav items and footer columns
+    resources.ts   # Resources section configuration
+  content/
+    resources/     # Markdown resource articles (content collection)
+    config.ts      # Content collection schema
+  layouts/
+    BaseLayout.astro
+    ResourceArticleLayout.astro
+  lib/
+    seo.ts         # SEO utility functions
+    readingTime.ts # Reading time calculator
+    relatedResources.ts
+  pages/           # File-based routing
+  styles/
+    global.css     # All styles with CSS custom properties
+public/
+  images/          # Static assets
+  _redirects       # Cloudflare Pages redirect rules
+```
+
+## TSP Publishing Contract
+
+TSP publishes resources to `src/content/resources/{slug}.md` with frontmatter
+matching the schema in `src/content/config.ts`.
+
+**Required frontmatter fields**: `title`, `excerpt`, `publishDate`, `author`, `draft`
+
+**Content root**: `src/content/resources`
+
+## Cloudflare Pages Build Config
+
+- **Build command**: `npm run build`
+- **Build output directory**: `dist`
+- **Node.js version**: 20.x
+
+## Part of TSP Website Management
+
+This site is managed through [The Social Port](https://github.com/digiscaleEQ/TheSocialPort)
+workspace publishing system. The same architecture pattern is reusable for Daniel Equine,
+EQPACS, and future client sites.
 
 That's it. No build step — files are uploaded directly to Cloudflare.
 

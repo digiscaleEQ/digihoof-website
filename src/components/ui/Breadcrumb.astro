@@ -1,0 +1,33 @@
+---
+/**
+ * Breadcrumb Component
+ *
+ * Accessible breadcrumb navigation for article and section pages.
+ */
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol style="display:flex;align-items:center;gap:8px;list-style:none;padding:0;margin:0;">
+    {items.map((item, index) => (
+      <li style="display:flex;align-items:center;gap:8px;">
+        {index > 0 && <span class="separator" aria-hidden="true">›</span>}
+        {item.href ? (
+          <a href={item.href}>{item.label}</a>
+        ) : (
+          <span class="current" aria-current="page">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
