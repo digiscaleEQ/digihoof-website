@@ -1,0 +1,28 @@
+---
+/**
+ * Google Analytics — GA4 gtag.js injection.
+ * Managed by TheSocialPort. Do not edit manually.
+ *
+ * Usage: <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
+ * Only loads in production builds to keep dev traffic clean.
+ */
+
+interface Props {
+  measurementId: string;
+}
+
+const { measurementId } = Astro.props;
+const isProd = import.meta.env.PROD;
+---
+
+{isProd && measurementId && (
+  <Fragment>
+    <script is:inline src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`} async></script>
+    <script is:inline define:vars={{ measurementId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", measurementId);
+    </script>
+  </Fragment>
+)}
