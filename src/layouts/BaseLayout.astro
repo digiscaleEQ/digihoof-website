@@ -6,13 +6,14 @@
  * Every page wraps its content in this layout.
  */
 
-import SEO from '../components/seo/SEO.astro';
-import StructuredData from '../components/seo/StructuredData.astro';
-import Header from '../components/site/Header.astro';
-import Footer from '../components/site/Footer.astro';
-import type { SEOProps } from '../lib/seo';
+import SEO from "../components/seo/SEO.astro";
+import StructuredData from "../components/seo/StructuredData.astro";
+import GoogleAnalytics from "../components/seo/GoogleAnalytics.astro";
+import Header from "../components/site/Header.astro";
+import Footer from "../components/site/Footer.astro";
+import type { SEOProps } from "../lib/seo";
 
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props extends SEOProps {
   /** Include organization structured data (homepage only) */
@@ -28,6 +29,7 @@ const { includeOrgSchema = false, ...seoProps } = Astro.props;
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="/images/DIGIHOOFbluegrey.png" />
+  <GoogleAnalytics measurementId="G-6ND20K5ZYC" />
   <SEO {...seoProps} />
   {includeOrgSchema && <StructuredData type="organization" />}
 </head>
