@@ -1,0 +1,105 @@
+---
+/**
+ * Billing Information Page
+ *
+ * Informational page explaining how billing works.
+ * Not a live billing portal.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Billing"
+  description="DigiHoof billing information. Learn about subscription plans, payment processing, and how billing is handled by DigiScan LLC."
+>
+
+<section class="split-section">
+  <div class="container">
+    <h1>Billing Information</h1>
+
+    <p class="operator-notice">Subscriptions are billed by DigiScan LLC.</p>
+
+    <h2>Subscription Plans</h2>
+    <p>
+      DigiHoof offers flexible options for veterinary practices and farriers.
+      Choose a plan that fits your workflow:
+    </p>
+    <ul>
+      <li><strong>Pay Per Report</strong> — $3 per report, no subscription required</li>
+      <li><strong>DigiHoof Monthly</strong> — $14.99/month for unlimited reports, AI-powered analysis, and client-ready PDFs</li>
+      <li><strong>With EQPACS</strong> — $9.99/month for seamless EQPACS integration and one-click report creation</li>
+    </ul>
+    <p>
+      View full plan details on our <a href="/pricing">pricing page</a>.
+    </p>
+  </div>
+</section>
+
+<section class="split-section alt">
+  <div class="container">
+    <h2>Payment Processing</h2>
+    <p>
+      All payments are processed securely through <strong>Stripe</strong>,
+      a PCI-compliant payment platform trusted by millions of businesses worldwide.
+      DigiScan LLC is the merchant of record for all DigiHoof subscriptions.
+    </p>
+    <p>
+      We accept major credit and debit cards.
+      Your payment information is handled directly by Stripe —
+      DigiHoof does not store credit card numbers.
+    </p>
+  </div>
+</section>
+
+<section class="split-section">
+  <div class="container">
+    <h2>Recurring Billing</h2>
+    <p>
+      Monthly subscription plans are billed automatically on a recurring basis.
+      Your subscription will renew at the end of each billing period
+      unless you cancel before the renewal date.
+    </p>
+    <p>
+      You will receive an invoice for each billing cycle.
+    </p>
+  </div>
+</section>
+
+<section class="split-section alt">
+  <div class="container">
+    <h2>Managing Your Subscription</h2>
+    <p>
+      To update your payment method, change your plan, or cancel your subscription,
+      contact our support team at <a href="mailto:support@digihoof.com">support@digihoof.com</a>.
+    </p>
+    <ul>
+      <li>Upgrade or downgrade your plan at any time</li>
+      <li>Update payment methods</li>
+      <li>View invoice history</li>
+      <li>Cancel with no long-term commitment</li>
+    </ul>
+  </div>
+</section>
+
+<section class="split-section">
+  <div class="container">
+    <h2>Cancellation</h2>
+    <p>
+      You may cancel your subscription at any time.
+      Upon cancellation, you will retain access to DigiHoof
+      through the end of your current billing period.
+      No partial refunds are issued for unused time within a billing cycle.
+    </p>
+
+    <h2>Billing Questions</h2>
+    <p>
+      For any billing inquiries, contact us at
+      <a href="mailto:support@digihoof.com">support@digihoof.com</a>
+      or visit our <a href="/support">support page</a>.
+      We typically respond within one business day.
+    </p>
+  </div>
+</section>
+
+</BaseLayout>

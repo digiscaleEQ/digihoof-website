@@ -2,10 +2,21 @@
 /**
  * Structured Data Component
  *
- * Generates JSON-LD structured data for articles and organization.
+ * Generates JSON-LD structured data for articles, FAQPage,
+ * BreadcrumbList, and organization.
  */
 
 import { brand } from '../../config/brand';
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
 
 interface Props {
   type: 'article' | 'organization';
@@ -16,14 +27,28 @@ interface Props {
   author?: string;
   image?: string;
   url?: string;
+  schemaType?: string;
+  reviewedBy?: string;
+  faqItems?: FaqItem[];
+  breadcrumbItems?: BreadcrumbItem[];
 }
 
-const { type, title, description, publishDate, updatedDate, author, image, url } = Astro.props;
+const {
+  type, title, description, publishDate, updatedDate,
+  author, image, url, schemaType, reviewedBy, faqItems, breadcrumbItems,
+} = Astro.props;
+
+const resolvedImage = image
+  ? (image.startsWith('http') ? image : `${brand.seo.canonicalBase}${image}`)
+  : undefined;
+
+const pageUrl = url ? `${brand.seo.canonicalBase}${url}` : brand.seo.canonicalBase;
 
 function buildArticleSchema() {
-  return {
+  const articleType = schemaType || 'Article';
+  const schema: Record<string, any> = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': articleType,
     headline: title,
     description: description,
     datePublished: publishDate?.toISOString(),
@@ -40,11 +65,56 @@ function buildArticleSchema() {
         url: `${brand.seo.canonicalBase}${brand.logo.src}`,
       },
     },
-    image: image ? (image.startsWith('http') ? image : `${brand.seo.canonicalBase}${image}`) : undefined,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': url || brand.seo.canonicalBase,
+      '@id': pageUrl,
     },
+  };
+
+  if (resolvedImage) {
+    schema.image = {
+      '@type': 'ImageObject',
+      url: resolvedImage,
+    };
+  }
+
+  if (reviewedBy) {
+    schema.reviewedBy = {
+      '@type': 'Person',
+      name: reviewedBy,
+    };
+  }
+
+  return schema;
+}
+
+function buildFaqSchema() {
+  if (!faqItems || faqItems.length === 0) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+function buildBreadcrumbSchema() {
+  if (!breadcrumbItems || breadcrumbItems.length === 0) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.label,
+      item: item.href ? `${brand.seo.canonicalBase}${item.href}` : undefined,
+    })),
   };
 }
 
@@ -59,7 +129,19 @@ function buildOrganizationSchema() {
   };
 }
 
-const schema = type === 'article' ? buildArticleSchema() : buildOrganizationSchema();
+const schemas: Record<string, any>[] = [];
+
+if (type === 'article') {
+  schemas.push(buildArticleSchema());
+  const faqSchema = buildFaqSchema();
+  if (faqSchema) schemas.push(faqSchema);
+  const breadcrumbSchema = buildBreadcrumbSchema();
+  if (breadcrumbSchema) schemas.push(breadcrumbSchema);
+} else {
+  schemas.push(buildOrganizationSchema());
+}
 ---
 
-<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

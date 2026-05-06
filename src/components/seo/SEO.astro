@@ -8,9 +8,22 @@
 
 import { buildSEO, type SEOProps } from '../../lib/seo';
 
-interface Props extends SEOProps {}
+interface Props extends SEOProps {
+  ogTitle?: string;
+  ogDescription?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+}
 
 const seo = buildSEO(Astro.props, Astro.url.pathname);
+
+// Allow explicit OG/Twitter overrides from frontmatter
+const ogTitle = Astro.props.ogTitle || seo.title;
+const ogDescription = Astro.props.ogDescription || seo.description;
+const twitterTitle = Astro.props.twitterTitle || seo.title;
+const twitterDescription = Astro.props.twitterDescription || seo.description;
+const twitterImage = Astro.props.twitterImage || seo.ogImage;
 ---
 
 <!-- Primary Meta -->
@@ -21,8 +34,8 @@ const seo = buildSEO(Astro.props, Astro.url.pathname);
 
 <!-- Open Graph -->
 <meta property="og:type" content={seo.ogType} />
-<meta property="og:title" content={seo.title} />
-<meta property="og:description" content={seo.description} />
+<meta property="og:title" content={ogTitle} />
+<meta property="og:description" content={ogDescription} />
 <meta property="og:url" content={seo.canonical} />
 <meta property="og:site_name" content={seo.siteName} />
 <meta property="og:image" content={seo.ogImage} />
@@ -31,7 +44,7 @@ const seo = buildSEO(Astro.props, Astro.url.pathname);
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={seo.title} />
-<meta name="twitter:description" content={seo.description} />
-<meta name="twitter:image" content={seo.ogImage} />
+<meta name="twitter:title" content={twitterTitle} />
+<meta name="twitter:description" content={twitterDescription} />
+<meta name="twitter:image" content={twitterImage} />
 {seo.twitterHandle && <meta name="twitter:site" content={seo.twitterHandle} />}

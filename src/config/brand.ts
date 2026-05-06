@@ -11,7 +11,7 @@ export const brand = {
   name: 'DigiHoof',
   tagline: 'Standardized hoof radiograph reporting platform.',
   operator: 'DigiScan LLC (USA)',
-  copyright: '© DigiHoof. All rights reserved.',
+  copyright: '© DigiScan LLC. All rights reserved.',
 
   appUrl: 'https://app.digihoof.com/login',
   appLabel: 'Clinic Login',

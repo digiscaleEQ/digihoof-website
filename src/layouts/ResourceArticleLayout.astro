@@ -82,6 +82,11 @@ const ctaProps = data.ctaVariant !== 'none'
   publishDate={data.publishDate}
   updatedDate={data.updatedDate}
   author={data.author}
+  ogTitle={data.ogTitle}
+  ogDescription={data.ogDescription}
+  twitterTitle={data.twitterTitle}
+  twitterDescription={data.twitterDescription}
+  twitterImage={data.twitterImage}
 >
   <StructuredData
     slot="head"
@@ -93,6 +98,10 @@ const ctaProps = data.ctaVariant !== 'none'
     author={data.author}
     image={data.heroImage}
     url={`${resourcesConfig.routeBase}/${entry.slug}/`}
+    schemaType={data.schemaType}
+    reviewedBy={data.reviewedBy}
+    faqItems={data.faqItems}
+    breadcrumbItems={breadcrumbItems}
   />
 
   <div class="container">
@@ -117,6 +126,7 @@ const ctaProps = data.ctaVariant !== 'none'
         {data.author && <span>{data.author}</span>}
         {readingTime && <span>{readingTime}</span>}
         {updatedFormatted && <span>Updated {updatedFormatted}</span>}
+        {data.reviewedBy && <span>Reviewed by {data.reviewedBy}</span>}
       </div>
 
       {data.tags && data.tags.length > 0 && (
@@ -139,10 +149,47 @@ const ctaProps = data.ctaVariant !== 'none'
       </div>
     )}
 
+    <!-- Key Takeaways (rendered before body for answer-first structure) -->
+    {data.keyTakeaways && data.keyTakeaways.length > 0 && (
+      <aside class="key-takeaways">
+        <h2 class="key-takeaways__title">Key Takeaways</h2>
+        <ul class="key-takeaways__list">
+          {data.keyTakeaways.map((takeaway: string) => (
+            <li>{takeaway}</li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
     <!-- Article Body -->
     <div class="article-body">
       <Content />
     </div>
+
+    <!-- Quotable Lines / Expert Takeaways -->
+    {data.quotableLines && data.quotableLines.length > 0 && (
+      <aside class="quotable-lines">
+        <h2 class="quotable-lines__title">Expert Takeaways</h2>
+        {data.quotableLines.map((line: string) => (
+          <blockquote class="quotable-lines__quote">{line}</blockquote>
+        ))}
+      </aside>
+    )}
+
+    <!-- FAQ Section (only rendered when faqItems exist — matches JSON-LD) -->
+    {data.faqItems && data.faqItems.length > 0 && (
+      <section class="faq-section">
+        <h2 class="faq-section__title">Frequently Asked Questions</h2>
+        <dl class="faq-section__list">
+          {data.faqItems.map((faq: { question: string; answer: string }) => (
+            <>
+              <dt class="faq-section__question">{faq.question}</dt>
+              <dd class="faq-section__answer">{faq.answer}</dd>
+            </>
+          ))}
+        </dl>
+      </section>
+    )}
 
     <!-- CTA Block -->
     {ctaProps && resourcesConfig.enableCta && (
