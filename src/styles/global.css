@@ -1381,8 +1381,34 @@ a {
     max-width: 100%;
   }
 
+  .header-inner {
+    height: auto;
+    min-height: 80px;
+    padding: 14px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .logo img {
+    height: 44px;
+  }
+
   .nav {
-    display: none;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+  }
+
+  .nav a {
+    margin-left: 0;
+    font-size: 0.86rem;
+  }
+
+  .nav .btn.small {
+    padding: 9px 14px;
   }
 
   .video-grid {
