@@ -10,7 +10,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Pricing"
-  description="DigiHoof pricing plans. Pay per report or subscribe for unlimited hoof radiograph reports."
+  description="DigiHoof pricing. $15/month for unlimited hoof radiograph reports, AI-powered analysis, and client-ready PDFs."
 >
 
 <section class="pricing-header">
@@ -22,42 +22,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <section>
   <div class="container">
-    <div class="pricing-grid">
+    <div class="pricing-grid single-plan">
 
-      <!-- Pay Per Report -->
-      <div class="pricing-card">
-        <h2>Pay Per Report</h2>
-        <div class="pricing-price">$3 <span>/ report</span></div>
-        <ul class="pricing-features">
-          <li>No subscription required</li>
-          <li>Pay only when you use it</li>
-          <li>Full report generation</li>
-        </ul>
-        <a href="/support" class="btn secondary">Start Using</a>
-      </div>
-
-      <!-- DigiHoof (featured) -->
       <div class="pricing-card featured">
         <h2>DigiHoof</h2>
-        <div class="pricing-price">$14.99 <span>/ month</span></div>
+        <div class="pricing-price">$15 <span>/ month</span></div>
         <ul class="pricing-features">
           <li>Unlimited reports</li>
           <li>AI-powered hoof analysis</li>
           <li>Client-ready PDFs</li>
+          <li>Mobile-friendly report sharing</li>
+          <li>Longitudinal tracking across visits</li>
+          <li>Cancel anytime — no long-term commitment</li>
         </ul>
         <a href="/support" class="btn primary">Get Started</a>
-      </div>
-
-      <!-- With EQPACS -->
-      <div class="pricing-card">
-        <h2>With EQPACS</h2>
-        <div class="pricing-price">$9.99 <span>/ month</span></div>
-        <ul class="pricing-features">
-          <li>Seamless integration</li>
-          <li>One-click report creation</li>
-          <li>Faster workflow</li>
-        </ul>
-        <a href="/support" class="btn secondary">Add to EQPACS</a>
       </div>
 
     </div>
