@@ -22,7 +22,6 @@ export const mainNav: NavItem[] = [
   { label: 'Resources', href: '/resources' },
   { label: 'Tutorials', href: '/tutorials' },
   { label: 'Support', href: '/support' },
-  { label: 'Contact', href: '/contact' },
 ];
 
 export const footerColumns: FooterColumn[] = [
@@ -41,7 +40,6 @@ export const footerColumns: FooterColumn[] = [
     title: 'Support',
     links: [
       { label: 'Contact Support', href: '/support' },
-      { label: 'Contact', href: '/contact' },
       { label: 'Pricing', href: '/pricing' },
       { label: 'Resources', href: '/resources' },
       { label: 'Tutorials', href: '/tutorials' },
